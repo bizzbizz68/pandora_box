@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Chat</title>
+
+  <link rel="stylesheet" href="/static/css/theme.css">
+  <link rel="stylesheet" href="/static/css/chat.css">
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+</head>
+
+<body>
+  <button id="themeToggle">🌓</button>
+
+  <div class="chat-container">
+    <div class="chat-header">
+      🔒 Private Chat
+      <span id="onlineStatus" class="status offline">Offline</span>
+    </div>
+
+    <div id="chat-log" class="chat-log"></div>
+
+    <div class="chat-input">
+      <input id="msg" placeholder="Nhập tin nhắn..." autocomplete="off">
+      <button id="sendBtn">➤</button>
+    </div>
+  </div>
+
+  <script>
+    window.ROOM = "{{ room }}";
+  </script>
+
+  <script src="/static/js/theme.js"></script>
+  <script src="/static/js/chat.js"></script>
+</body>
+</html>

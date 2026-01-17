@@ -1,0 +1,84 @@
+/* ===== RESET ===== */
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ===== LAYOUT ===== */
+.container {
+  text-align: center;
+  margin-top: -120px;
+}
+
+/* ===== GOOGLE LOGO ===== */
+.logo {
+  font-size: 92px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+}
+
+.logo span:nth-child(1) { color: #4285f4; }
+.logo span:nth-child(2) { color: #ea4335; }
+.logo span:nth-child(3) { color: #fbbc05; }
+.logo span:nth-child(4) { color: #4285f4; }
+.logo span:nth-child(5) { color: #34a853; }
+.logo span:nth-child(6) { color: #ea4335; }
+
+/* ===== SEARCH BOX ===== */
+.search-wrapper {
+  position: relative;
+  width: 520px;
+  margin: auto;
+}
+
+.search-box {
+  width: 100%;
+  height: 46px;
+  padding: 0 48px 0 18px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 18px;
+  outline: none;
+}
+
+.search-box:focus {
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  border-color: transparent;
+}
+
+/* ===== SEARCH ICON ===== */
+.search-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #5f6368;
+  cursor: pointer;
+  user-select: none;
+}
+
+.search-icon:active {
+  transform: translateY(-50%) scale(0.9);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  .search-wrapper {
+    width: 90vw;
+  }
+
+  .logo {
+    font-size: 64px;
+  }
+}
+
