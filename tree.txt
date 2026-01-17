@@ -1,0 +1,21 @@
+chatbox/
+│
+├─ app.py                  # Flask + SocketIO
+├─ drive_store.py          # Google Drive read/write
+├─ requirements.txt
+├─ .gitignore
+│
+├─ templates/
+│   ├─ index.html
+│   └─ chat.html
+│
+└─ static/
+    ├─ css/
+    │   ├─ theme.css
+    │   ├─ style.css
+    │   └─ chat.css
+    │
+    └─ js/
+        ├─ theme.js
+        ├─ search.js
+        └─ chat.js
