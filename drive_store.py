@@ -13,6 +13,7 @@ creds = Credentials.from_service_account_file(
 drive = build("drive", "v3", credentials=creds)
 
 FILE_NAME = "chat_room.json"
+FOLDER_ID = "1t-m92ytw8SSz0sjyTXb3OBIKv0TrCfRP?usp=sharing"
 
 
 def _find_file():
@@ -30,7 +31,10 @@ def _create_file():
         mimetype="application/json"
     )
     file = drive.files().create(
-        body={"name": FILE_NAME},
+        body={
+            "name": FILE_NAME,
+            "parents": [FOLDER_ID]  # 👈 QUAN TRỌNG
+        },
         media_body=media,
         fields="id"
     ).execute()
