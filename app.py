@@ -106,16 +106,6 @@ def on_disconnect():
         if request.sid in sids:
             emit("presence", len(sids) - 1, room=h)
 
-# -------- TẠO SEVER TEST --------
-# if __name__ == "__main__":
-#     init_db()
-#     socketio.run(
-#         app,
-#         host="127.0.0.1",
-#         port=5001,
-#         debug=False,
-#         allow_unsafe_werkzeug=True
-#     )
 import os
 
 if __name__ == "__main__":
@@ -124,5 +114,6 @@ if __name__ == "__main__":
         app,
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 5000)),
-        debug=False
+        debug=True,
+        allow_unsafe_werkzeug=True
     )
