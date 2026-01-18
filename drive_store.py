@@ -10,7 +10,7 @@ SCOPES = ["https://www.googleapis.com/auth/drive"]
 FILE_NAME = "chat_room.json"
 
 # 🔴 BẮT BUỘC: folder ID của bố (lấy trên URL Drive)
-FOLDER_ID = "DÁN_FOLDER_ID_VÀO_ĐÂY"
+FOLDER_ID = "1t-m92ytw8SSz0sjyTXb3OBIKv0TrCfRP"
 
 
 def log(msg):
