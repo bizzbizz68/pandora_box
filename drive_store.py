@@ -1,31 +1,45 @@
-import io, json
+import io, json, os, sys
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
-from googleapiclient.http import MediaIoBaseDownload, MediaIoBaseUpload
+from googleapiclient.http import MediaIoBaseUpload, MediaIoBaseDownload
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CREDS_PATH = os.path.join(BASE_DIR, "credentials.json")
 
 SCOPES = ["https://www.googleapis.com/auth/drive"]
+FILE_NAME = "chat_room.json"
 
+# 🔴 BẮT BUỘC: folder ID của bố (lấy trên URL Drive)
+FOLDER_ID = "DÁN_FOLDER_ID_VÀO_ĐÂY"
+
+
+def log(msg):
+    print(f"[DRIVE] {msg}", flush=True)
+
+
+# ===== AUTH =====
+log(f"Loading creds from: {CREDS_PATH}")
 creds = Credentials.from_service_account_file(
-    "credentials.json",
+    CREDS_PATH,
     scopes=SCOPES
 )
-
 drive = build("drive", "v3", credentials=creds)
 
-FILE_NAME = "chat_room.json"
-FOLDER_ID = "1t-m92ytw8SSz0sjyTXb3OBIKv0TrCfRP?usp=sharing"
 
-
-def _find_file():
+# ===== DRIVE OPS =====
+def find_file():
+    log("Finding file...")
     res = drive.files().list(
         q=f"name='{FILE_NAME}' and trashed=false",
-        fields="files(id)"
+        fields="files(id, parents)"
     ).execute()
     files = res.get("files", [])
+    log(f"Found files: {files}")
     return files[0]["id"] if files else None
 
 
-def _create_file():
+def create_file():
+    log("Creating file on Drive...")
     media = MediaIoBaseUpload(
         io.BytesIO(b"{}"),
         mimetype="application/json"
@@ -33,21 +47,26 @@ def _create_file():
     file = drive.files().create(
         body={
             "name": FILE_NAME,
-            "parents": [FOLDER_ID]  # 👈 QUAN TRỌNG
+            "parents": [FOLDER_ID]
         },
         media_body=media,
         fields="id"
     ).execute()
+    log(f"Created file id={file['id']}")
     return file["id"]
 
 
 def get_file_id():
-    return _find_file() or _create_file()
+    fid = find_file()
+    if fid:
+        return fid
+    return create_file()
 
 
 def load_data():
-    file_id = get_file_id()
-    request = drive.files().get_media(fileId=file_id)
+    fid = get_file_id()
+    log("Loading data...")
+    request = drive.files().get_media(fileId=fid)
     fh = io.BytesIO()
     MediaIoBaseDownload(fh, request).next_chunk()
     fh.seek(0)
@@ -55,13 +74,14 @@ def load_data():
 
 
 def save_data(data):
-    file_id = get_file_id()
+    fid = get_file_id()
+    log("Saving data...")
     media = MediaIoBaseUpload(
         io.BytesIO(json.dumps(data).encode()),
         mimetype="application/json",
         resumable=True
     )
     drive.files().update(
-        fileId=file_id,
+        fileId=fid,
         media_body=media
     ).execute()

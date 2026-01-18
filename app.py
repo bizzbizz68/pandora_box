@@ -4,6 +4,11 @@ from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO, join_room, emit
 from drive_store import load_data, save_data
 
+try:
+    load_data()
+    print("[BOOT] Drive OK", flush=True)
+except Exception as e:
+    print("[BOOT ERROR]", e, flush=True)
 app = Flask(__name__)
 
 socketio = SocketIO(
